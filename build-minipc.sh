@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-rm -rf build
+sudo rm -rf build 2>/dev/null || true
 
 git clone https://github.com/sterling5241/build --branch bpi-main --depth=1
 cd build
