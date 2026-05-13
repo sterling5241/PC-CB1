@@ -1,3 +1,3 @@
-.PHONY: build
-build:
-	bash build-minipc.sh
+.PHONY: setup
+setup:
+	bash setup.sh
