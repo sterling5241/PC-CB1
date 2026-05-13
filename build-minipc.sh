@@ -16,4 +16,6 @@ curl -o lib/functions/rootfs/distro-agnostic.sh \
   RELEASE=trixie \
   BUILD_MINIMAL=yes \
   BUILD_DESKTOP=no \
-  KERNEL_CONFIGURE=no
+  KERNEL_CONFIGURE=no \
+  CONSOLE_AUTOLOGIN=yes \
+  PACKAGE_LIST_ADDITIONAL="armbian-install"
