@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+rm -rf build
+
 git clone https://github.com/sterling5241/build --branch bpi-main --depth=1
 cd build
 
