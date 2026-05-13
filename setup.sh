@@ -30,14 +30,14 @@ apt-get update && apt-get upgrade -y
 apt-get install -y git python3 python3-pip python3-venv virtualenv nginx curl wget
 
 # Install KIAUH
-cd /root
-git clone https://github.com/dw-0/kiauh.git
+cd /home/biqu
+sudo -u biqu git clone https://github.com/dw-0/kiauh.git
 
 # Auto install Klipper, Moonraker, Mainsail, Crowsnest
-/root/kiauh/kiauh.sh -- install klipper
-/root/kiauh/kiauh.sh -- install moonraker
-/root/kiauh/kiauh.sh -- install mainsail
-/root/kiauh/kiauh.sh -- install crowsnest
+sudo -u biqu /home/biqu/kiauh/kiauh.sh -- install klipper
+sudo -u biqu /home/biqu/kiauh/kiauh.sh -- install moonraker
+sudo -u biqu /home/biqu/kiauh/kiauh.sh -- install mainsail
+sudo -u biqu /home/biqu/kiauh/kiauh.sh -- install crowsnest
 
 echo "=== Setup Complete ==="
 echo "Access Mainsail at: http://$(hostname -I | awk '{print $1}')"
