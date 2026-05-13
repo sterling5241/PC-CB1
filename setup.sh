@@ -20,7 +20,7 @@ mkdir -p /etc/systemd/system/getty@tty1.service.d
 cat <<EOF > /etc/systemd/system/getty@tty1.service.d/override.conf
 [Service]
 ExecStart=
-ExecStart=-/sbin/agetty --autologin root --noclear %I \$TERM
+ExecStart=-/sbin/agetty --autologin biqu --noclear %I \$TERM
 EOF
 
 # Update system
