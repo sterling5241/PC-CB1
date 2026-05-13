@@ -15,9 +15,10 @@ useradd -m -s /bin/bash biqu 2>/dev/null || true
 echo "biqu:biqu" | chpasswd
 usermod -aG sudo,tty,dialout,video biqu
 
+# Allow biqu to sudo without password
 echo "biqu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/biqu
 
-# Auto login at startup (no password prompt)
+# Auto login as biqu at startup
 mkdir -p /etc/systemd/system/getty@tty1.service.d
 cat <<EOF > /etc/systemd/system/getty@tty1.service.d/override.conf
 [Service]
@@ -29,13 +30,9 @@ EOF
 apt-get update && apt-get upgrade -y
 
 # Install dependencies
-apt-get install -y git python3 python3-pip python3-venv virtualenv nginx curl wget
+apt-get install -y git python3 python3-pip python3-venv virtualenv nginx curl wget unzip
 
-# Install KIAUH
-cd /home/biqu
-sudo -u biqu git clone https://github.com/dw-0/kiauh.git
-
-# Run all installs as biqu
+# Run installs as biqu
 sudo -u biqu bash <<'BIQU'
 
 cd /home/biqu
@@ -58,8 +55,8 @@ cd /home/biqu
 
 # Crowsnest
 git clone https://github.com/mainsail-crew/crowsnest.git
-cd crowsnest && make install
-cd /home/biqu
+cd /home/biqu/crowsnest
+sudo make install
 
 BIQU
 
