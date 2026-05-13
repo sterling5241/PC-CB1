@@ -34,10 +34,10 @@ cd /root
 git clone https://github.com/dw-0/kiauh.git
 
 # Auto install Klipper, Moonraker, Mainsail, Crowsnest
-bash /root/kiauh/scripts/install-klipper.sh
-bash /root/kiauh/scripts/install-moonraker.sh
-bash /root/kiauh/scripts/install-mainsail.sh
-bash /root/kiauh/scripts/install-crowsnest.sh
+/root/kiauh/kiauh.sh -- install klipper
+/root/kiauh/kiauh.sh -- install moonraker
+/root/kiauh/kiauh.sh -- install mainsail
+/root/kiauh/kiauh.sh -- install crowsnest
 
 echo "=== Setup Complete ==="
 echo "Access Mainsail at: http://$(hostname -I | awk '{print $1}')"
