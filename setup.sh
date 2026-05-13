@@ -15,6 +15,8 @@ useradd -m -s /bin/bash biqu 2>/dev/null || true
 echo "biqu:biqu" | chpasswd
 usermod -aG sudo,tty,dialout,video biqu
 
+echo "biqu ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/biqu
+
 # Auto login at startup (no password prompt)
 mkdir -p /etc/systemd/system/getty@tty1.service.d
 cat <<EOF > /etc/systemd/system/getty@tty1.service.d/override.conf
