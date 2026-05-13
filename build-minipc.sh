@@ -19,5 +19,6 @@ curl -o lib/functions/rootfs/distro-agnostic.sh \
   BUILD_MINIMAL=yes \
   BUILD_DESKTOP=no \
   KERNEL_CONFIGURE=no \
+  KERNEL_GIT=shallow \
   CONSOLE_AUTOLOGIN=yes \
   PACKAGE_LIST_ADDITIONAL="armbian-install"
