@@ -56,7 +56,7 @@ cd /home/biqu
 # Crowsnest
 git clone https://github.com/mainsail-crew/crowsnest.git
 cd /home/biqu/crowsnest
-sudo make install
+yes Y | sudo make install
 
 BIQU
 
