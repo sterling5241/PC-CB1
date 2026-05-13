@@ -13,10 +13,8 @@ function install_distribution_agnostic() {
 	# Bail if $ROOTFS_TYPE not set
 	[[ -z $ROOTFS_TYPE ]] && exit_with_error "ROOTFS_TYPE not set" "install_distribution_agnostic"
 
-	# add dummy fstab entry to make mkinitramfs happy
-	echo "/dev/mmcblk0p1 / $ROOTFS_TYPE defaults 0 1" >> "${SDCARD}"/etc/fstab
-	# required for initramfs-tools-core on Stretch since it ignores the / fstab entry
-	echo "/dev/mmcblk0p2 /usr $ROOTFS_TYPE defaults 0 2" >> "${SDCARD}"/etc/fstab
+	echo "/dev/sda1 / $ROOTFS_TYPE defaults 0 1" >> "${SDCARD}"/etc/fstab
+	echo "/dev/sda2 /usr $ROOTFS_TYPE defaults 0 2" >> "${SDCARD}"/etc/fstab
 
 	# create modules file
 	local modules=MODULES_${BRANCH^^} # BRANCH, uppercase
@@ -535,46 +533,19 @@ install_can0() {
 
 install_btt_scripts() {
 	mkdir "${SDCARD}"/boot/gcode -p
-	cp "${SRC}"/patch/boot/system.cfg "${SDCARD}"/boot/system.cfg
-	cp -r "${SRC}"/patch//boot/scripts/ "${SDCARD}"/boot/
-	chmod +x "${SDCARD}"/boot/scripts/*
 
 	if [[ ! -z $BTT_HOSTNAME ]]; then
 		escape_sed_replacement() {
 			echo "$1" | sed -e 's/[&\/\]/\\&/g' -e "s/'/'\\\\''/g"
 		}
 		safe_hostname=$(escape_sed_replacement "$BTT_HOSTNAME")
-		sed -i -E "s|^#hostname=['\"]BIGTREETECH-CB[^'\"]*['\"]\$|#hostname='$safe_hostname'|i" "${SDCARD}"/boot/system.cfg
-	fi
-
-	if [[ ! -z $BTT_ROOTFS_START ]]; then
-		sed -i -E "s|^ROOTFS_START=532480|ROOTFS_START=$BTT_ROOTFS_START|i" "${SDCARD}"/boot/scripts/extend_fs.sh
-	fi
-
-	if [[ ! -z $BTT_HDMI_AUDIODEV ]]; then
-		sed -i -E "s|^AUDIODEV=hw:1,0|AUDIODEV=$BTT_HDMI_AUDIODEV|i" "${SDCARD}"/boot/scripts/vibrationsound.sh
-		sed -i -E "s|^AUDIODEV=hw:1,0|AUDIODEV=$BTT_HDMI_AUDIODEV|i" "${SDCARD}"/boot/scripts/sound.sh
+		echo "$safe_hostname" > "${SDCARD}"/etc/hostname
 	fi
 }
 
 install_rclocal() {
 	cat <<- EOF > "${SDCARD}"/etc/rc.local
 		#!/bin/sh -e
-		#
-		# rc.local
-		#
-		# This script is executed at the end of each multiuser runlevel.
-		# Make sure that the script will "exit 0" on success or any other
-		# value on error.
-		#
-		# In order to enable or disable this script just change the execution
-		# bits.
-		#
-		# By default this script does nothing.
-
-		chmod +x /boot/scripts/*
-		/boot/scripts/btt_init.sh
-
 		exit 0
 	EOF
 	chmod +x "${SDCARD}"/etc/rc.local
